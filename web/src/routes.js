@@ -4,11 +4,12 @@
  */
 
 import { Route, Routes } from "react-router-dom";
-import AppLayout from "@awsui/components-react/app-layout";
+import AppLayout from "@cloudscape-design/components/app-layout";
 import LandingPage from "./pages/LandingPage";
 import { Navigation } from "./layout/Navigation";
 import Databases from "./pages/Databases";
 import Assets from "./pages/Assets";
+import AssetUploadPage from "./pages/AssetUpload";
 import ViewAsset from "./components/single/ViewAsset";
 import Pipelines from "./pages/Pipelines";
 import ViewPipeline from "./components/single/ViewPipeline";
@@ -26,6 +27,8 @@ const routeTable = [
     active: "/assets",
   },
   { path: "/assets/:assetId", Page: ViewAsset, active: "/assets" },
+  { path: "/upload/:databaseId", Page: AssetUploadPage, active: "/upload" },
+  { path: "/upload", Page: AssetUploadPage, active: "/upload" },
   { path: "/visualizers/:pathViewType", Page: ViewAsset, active: "/assets" },
   { path: "/assets", Page: Assets, active: "/assets" },
   {
@@ -73,7 +76,7 @@ export const AppRoutes = (props) => {
         path={path}
         element={
           <AppLayout
-            disableContentPaddings={true}
+            disableContentPaddings={navigationOpen}
             content={<Page />}
             navigation={<Navigation activeHref={active} />}
             navigationOpen={navigationOpen}

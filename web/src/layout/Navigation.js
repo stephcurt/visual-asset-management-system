@@ -4,7 +4,7 @@
  */
 
 import React from "react";
-import { SideNavigation } from "@awsui/components-react";
+import { SideNavigation } from "@cloudscape-design/components";
 import config from "../config";
 
 const navHeader = {
@@ -22,6 +22,7 @@ let navItems = [
     items: [
       { type: "link", text: "Databases", href: "/databases" },
       { type: "link", text: "Assets", href: "/assets" },
+      { type: "link", text: "Upload Asset", href: "/upload" },
     ],
   },
   {

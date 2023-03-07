@@ -13,8 +13,10 @@ import {
   Header,
   SegmentedControl,
   SpaceBetween,
-} from "@awsui/components-react";
-import { AmplifyS3Image } from "@aws-amplify/ui-react/legacy";
+} from "@cloudscape-design/components";
+
+import Metadata from "./Metadata";
+import ImgViewer from "../viewers/ImgViewer";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import ThreeDimensionalPlotter from "../viewers/ThreeDimensionalPlotter";
@@ -44,7 +46,14 @@ import CreateUpdateAsset from "../createupdate/CreateUpdateAsset";
 import { actionTypes } from "../createupdate/form-definitions/types/FormDefinition";
 import WorkflowSelectorWithModal from "../selectors/WorkflowSelectorWithModal";
 
-const checkFileFormat = (filetype) => {
+const checkFileFormat = (asset) => {
+  let filetype;
+  if(asset?.generated_artifacts?.gltf?.Key) {
+    filetype = asset?.generated_artifacts?.gltf?.Key.split(".").pop();
+  } else {
+    filetype = asset.assetType;
+  }
+
   filetype = filetype.toLowerCase();
   if (
       cadFileFormats.includes(filetype) ||
@@ -243,7 +252,9 @@ export default function ViewAsset() {
         if (item !== false) {
           console.log(item);
           setAsset(item);
-          const defaultViewType = checkFileFormat(item.assetType);
+
+          const defaultViewType = checkFileFormat(item);
+          console.log("default view type", defaultViewType);
           const newViewerOptions = [{ text: "Preview", id: "preview" }];
           if (defaultViewType === "plot") {
             newViewerOptions.push({ text: "Plot", id: "plot" });
@@ -379,8 +390,10 @@ export default function ViewAsset() {
                 <SpaceBetween direction="vertical" size="m">
                   <Container
                     header={
-                      <Grid gridDefinition={[{ colspan: 2 }, { colspan: 10 }]}>
-                        <Header variant="h2">Visualizer</Header>
+                      <Grid gridDefinition={[{ colspan: 3 }, { colspan: 9 }]}>
+                        <Box margin={{ bottom: "m" }}>
+                          <Header variant="h2">Visualizer</Header>
+                        </Box>
                         <SegmentedControl
                           label="Visualizer Control"
                           options={viewerOptions}
@@ -394,10 +407,10 @@ export default function ViewAsset() {
                     <div className="visualizer-container">
                       <div className="visualizer-container-canvases">
                         {viewType === "preview" &&
-                          asset?.previewLocation?.Key && (
-                            <AmplifyS3Image
-                              className="visualizer-container-preview"
-                              imgKey={asset?.previewLocation?.Key}
+                        asset?.previewLocation?.Key && (
+                            <ImgViewer
+                              assetKey={asset?.generated_artifacts?.preview?.Key || asset.previewLocation.Key}
+                              altAssetKey={asset.previewLocation.Key}
                             />
                           )}
                         {viewType === "cad" && (
@@ -408,7 +421,7 @@ export default function ViewAsset() {
                         )}
                         {viewType === "3d" && (
                           <ThreeDViewer
-                            assetKey={asset?.assetLocation?.Key}
+                            assetKey={asset?.generated_artifacts?.gltf?.Key || asset?.assetLocation?.Key}
                             className="visualizer-container-canvas"
                           />
                         )}
@@ -497,7 +510,7 @@ export default function ViewAsset() {
                 width: "100%",
               }}
             >
-              <div style={{ position: "absolute", width: "100%" }}>
+              <div style={{ width: "100%" }}>
                 <RelatedTableList
                   allItems={allItems}
                   loading={loading}
@@ -508,6 +521,10 @@ export default function ViewAsset() {
                   HeaderControls={WorkflowHeaderControls}
                 />
               </div>
+              <Metadata
+                databaseId={databaseId}
+                assetId={assetId}
+              />
             </div>
           </SpaceBetween>
         </Box>

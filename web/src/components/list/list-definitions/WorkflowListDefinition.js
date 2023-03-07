@@ -5,7 +5,7 @@
 
 import React from "react";
 import ListDefinition from "./types/ListDefinition";
-import { Link, Badge } from "@awsui/components-react";
+import { Link, Badge } from "@cloudscape-design/components";
 import ColumnDefinition from "./types/ColumnDefinition";
 
 export const WorkflowListDefinition = new ListDefinition({
@@ -55,7 +55,7 @@ export const WorkflowListDefinition = new ListDefinition({
       header: "Pipelines",
       cellWrapper: (props) => {
         const displayPipelines = props?.item?.specifiedPipelines?.functions
-          .map((item) => <Badge color="grey">{item.name}</Badge>)
+          .map((item) => <Badge key={item.name} color="grey">{item.name}</Badge>)
         return <>{displayPipelines}</>;
       },
     }),

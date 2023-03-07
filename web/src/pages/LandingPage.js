@@ -5,14 +5,14 @@
 
 import React, { useEffect, useRef, useState } from "react";
 
-import Box from "@awsui/components-react/box";
-import Button from "@awsui/components-react/button";
-import ColumnLayout from "@awsui/components-react/column-layout";
-import Container from "@awsui/components-react/container";
-import Grid from "@awsui/components-react/grid";
-import Header from "@awsui/components-react/header";
-import Icon from "@awsui/components-react/icon";
-import SpaceBetween from "@awsui/components-react/space-between";
+import Box from "@cloudscape-design/components/box";
+import Button from "@cloudscape-design/components/button";
+import ColumnLayout from "@cloudscape-design/components/column-layout";
+import Container from "@cloudscape-design/components/container";
+import Grid from "@cloudscape-design/components/grid";
+import Header from "@cloudscape-design/components/header";
+import Icon from "@cloudscape-design/components/icon";
+import SpaceBetween from "@cloudscape-design/components/space-between";
 
 import { ExternalLinkItem } from "../common/common-components";
 import "../styles/landing-page.scss";
@@ -100,7 +100,7 @@ const LandingPage = (props) => {
                   Start uploading and managing your digital assets to get
                   started.
                 </Box>
-                <Button href="/assets" variant="primary">
+                <Button href="/upload" variant="primary">
                   Upload Assets
                 </Button>
               </SpaceBetween>
@@ -286,16 +286,10 @@ const LandingPage = (props) => {
                   aria-label="Getting started documentation"
                   className="custom-list-separator"
                 >
-                  <li>
+                   <li>
                     <ExternalLinkItem
-                      href="https://w.amazon.com/bin/view/BDSI_Solutions_Prototyping/VAMS/"
-                      text="VAMS Wiki"
-                    />
-                  </li>
-                  <li>
-                    <ExternalLinkItem
-                      href="https://demo-factory.corp.amazon.com/"
-                      text="Demo Factory"
+                      href="https://github.com/awslabs/visual-asset-management-system"
+                      text="VAMS on Github"
                     />
                   </li>
                 </ul>

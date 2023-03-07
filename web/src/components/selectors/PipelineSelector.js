@@ -5,7 +5,7 @@
 
 import React, { useEffect, useState } from "react";
 import { fetchDatabasePipelines } from "../../services/APIService";
-import { Select, Multiselect } from "@awsui/components-react";
+import { Select, Multiselect } from "@cloudscape-design/components";
 
 const PipelineSelector = (props) => {
   const { databaseId, isMulti } = props;
@@ -23,7 +23,7 @@ const PipelineSelector = (props) => {
     if (reload) {
       getData();
     }
-  }, [reload]);
+  }, [reload, databaseId]);
 
   const SelectControl = (props) => {
     const { isMulti } = props;
