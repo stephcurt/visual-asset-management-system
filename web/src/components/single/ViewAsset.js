@@ -21,6 +21,7 @@ import ThreeDimensionalPlotter from "../viewers/ThreeDimensionalPlotter";
 import ThreeDViewer from "../viewers/3dViewer";
 import ColumnarViewer from "../viewers/ColumnarViewer";
 import HTMLViewer from "../viewers/HTMLViewer";
+import ModelViewer from "../viewers/ModelViewer";
 import {
   fetchAsset,
   fetchWorkflowExecutions,
@@ -31,6 +32,7 @@ import {
  * No viewer yet for cad and archive file formats
  */
 import {
+  cadFileFormats,
   columnarFileFormats,
   modelFileFormats,
   presentationFileFormats,
@@ -44,6 +46,12 @@ import WorkflowSelectorWithModal from "../selectors/WorkflowSelectorWithModal";
 
 const checkFileFormat = (filetype) => {
   filetype = filetype.toLowerCase();
+  if (
+      cadFileFormats.includes(filetype) ||
+      cadFileFormats.includes("." + filetype)
+  ) {
+    return "cad";
+  }
   if (
     modelFileFormats.includes(filetype) ||
     modelFileFormats.includes("." + filetype)
@@ -240,6 +248,8 @@ export default function ViewAsset() {
           if (defaultViewType === "plot") {
             newViewerOptions.push({ text: "Plot", id: "plot" });
             newViewerOptions.push({ text: "Column", id: "column" });
+          } else if (defaultViewType === "cad") {
+            newViewerOptions.push({ text: "CAD", id: "cad" });
           } else if (defaultViewType === "3d") {
             newViewerOptions.push({ text: "3d", id: "3d" });
           } else if (defaultViewType === "html") {
@@ -251,7 +261,9 @@ export default function ViewAsset() {
             if (window.location.hash === "#preview") {
               setViewType("preview");
             }
-            if (window.location.hash === "#3d") {
+            if (window.location.hash === "#cad") {
+              setViewType("cad");
+            } else if (window.location.hash === "#3d") {
               setViewType("3d");
             } else if (window.location.hash === "#plot") {
               setViewType("plot");
@@ -388,6 +400,12 @@ export default function ViewAsset() {
                               imgKey={asset?.previewLocation?.Key}
                             />
                           )}
+                        {viewType === "cad" && (
+                            <ModelViewer
+                                assetKey={asset?.assetLocation?.Key}
+                                className="visualizer-container-canvas"
+                            />
+                        )}
                         {viewType === "3d" && (
                           <ThreeDViewer
                             assetKey={asset?.assetLocation?.Key}
