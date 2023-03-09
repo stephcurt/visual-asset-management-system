@@ -20,16 +20,15 @@ export default function ModelViewer(props) {
         const loadAsset = async () => {
             await Storage.get(assetKey, config).then((remoteFileUrl) => {
                 engineElement.current.setAttribute("model", remoteFileUrl);
-                setTimeout(()=>{
-                    OV.SetExternalLibLocation ('../libs');
+                setTimeout(() => {
                     let parentDiv = engineElement.current;
-                    let viewer = new OV.EmbeddedViewer(parentDiv,{
-                        backgroundColor : new OV.RGBAColor (182, 182, 182, 182),
-                        defaultColor : new OV.RGBColor (200, 200, 200),
-                        edgeSettings : new OV.EdgeSettings (true, new OV.RGBColor (0, 0, 255), 1),
+                    let viewer = new OV.EmbeddedViewer(parentDiv, {
+                        backgroundColor: new OV.RGBAColor(182, 182, 182, 182),
+                        defaultColor: new OV.RGBColor(200, 200, 200),
+                        edgeSettings: new OV.EdgeSettings(true, new OV.RGBColor(0, 0, 255), 1),
                     });
-                    viewer.LoadModelFromUrlList ([remoteFileUrl]);
-                },100);
+                    viewer.LoadModelFromUrlList([remoteFileUrl]);
+                }, 100);
             });
         };
         if (!loaded && assetKey !== "") {
